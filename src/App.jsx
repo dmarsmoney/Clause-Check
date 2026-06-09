@@ -52,7 +52,7 @@ ${clause}`
         body: JSON.stringify({ clause: prompt })
       })
       const data = await res.json()
-      const text = data.content.map(b => b.text || '').join('').replace(/```json|```/g, '').trim()
+      const text = data.result.content.map(b => b.text || '').join('').replace(/```json|```/g, '').trim()
       const parsed = JSON.parse(text)
       incrementUsed()
       setUsed(getUsed())
