@@ -58,8 +58,8 @@ ${clause}`
       setUsed(getUsed())
       setResult(parsed)
     } catch (e) {
-      alert('Something went wrong. Please try again.')
-    }
+    alert('Error: ' + e.message)
+}
     setLoading(false)
   }
 
