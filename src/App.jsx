@@ -52,19 +52,10 @@ CONTRACT CLAUSE:
 ${clause}`
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('/api/analyze', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          messages: [{ role: 'user', content: prompt }]
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clause: prompt })
       })
       const data = await res.json()
       const text = data.content.map(b => b.text || '').join('').replace(/```json|```/g, '').trim()
@@ -119,67 +110,4 @@ ${clause}`
         <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: 12, padding: '1rem', marginBottom: 12 }}>
           <div style={{ display: 'flex', gap: 5, marginBottom: 8 }}>
             {[0,1,2].map(i => (
-              <div key={i} style={{ width: 7, height: 7, borderRadius: '50%', background: '#378ADD', animation: `pulse 1.2s ${i*0.2}s infinite` }} />
-            ))}
-          </div>
-          <p style={{ fontSize: 13, color: '#888' }}>Analyzing your clause...</p>
-        </div>
-      )}
-
-      {showPaywall && (
-        <div style={{ background: '#fff', border: '2px solid #378ADD', borderRadius: 12, padding: '1.5rem', textAlign: 'center', marginBottom: 12 }}>
-          <div style={{ fontSize: 32, marginBottom: 12 }}>🔒</div>
-          <p style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>You've used your 3 free analyses today</p>
-          <p style={{ fontSize: 13, color: '#666', marginBottom: 16, lineHeight: 1.6 }}>Upgrade to ClauseCheck Pro for unlimited analyses, full contract uploads, and more.</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16, textAlign: 'left', maxWidth: 260, margin: '0 auto 16px' }}>
-            {['Unlimited clause analyses', 'Upload full contracts (PDF)', 'Risk summary report', 'Save & export analyses'].map(p => (
-              <div key={p} style={{ fontSize: 13, color: '#555', display: 'flex', gap: 8 }}>✓ {p}</div>
-            ))}
-          </div>
-          <button onClick={() => window.open('https://buy.stripe.com/bJe8wR7JQ4Vc2D37MldUY00', '_blank')} style={{ background: '#185FA5', color: '#fff', border: 'none', borderRadius: 8, padding: '0 1.5rem', height: 40, fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
-  👑 Upgrade for $9/month
-</button>
-          <p style={{ fontSize: 12, color: '#aaa', marginTop: 10 }}>Cancel anytime.</p>
-        </div>
-      )}
-
-      {result && (
-        <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: 12, padding: '1rem', marginBottom: 12 }}>
-          <div style={{ marginBottom: 16 }}>
-            <p style={{ fontSize: 11, fontWeight: 600, color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>Plain-English summary</p>
-            <p style={{ fontSize: 14, color: '#111', lineHeight: 1.7 }}>{result.summary}</p>
-          </div>
-          <div style={{ marginBottom: 16 }}>
-            <p style={{ fontSize: 11, fontWeight: 600, color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>Risk level</p>
-            <span style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, fontWeight: 600,
-              padding: '3px 10px', borderRadius: 8, marginBottom: 6,
-              background: result.risk === 'High' ? '#FCEBEB' : result.risk === 'Medium' ? '#FAEEDA' : '#EAF3DE',
-              color: result.risk === 'High' ? '#A32D2D' : result.risk === 'Medium' ? '#854F0B' : '#3B6D11'
-            }}>
-              {result.risk === 'High' ? '⚠ High risk' : result.risk === 'Medium' ? '◎ Medium risk' : '✓ Low risk'}
-            </span>
-            <p style={{ fontSize: 13, color: '#666' }}>{result.riskReason}</p>
-          </div>
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 600, color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>What to watch out for</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {result.flags.map((f, i) => (
-                <div key={i} style={{ fontSize: 13, color: '#555', display: 'flex', gap: 8, alignItems: 'flex-start', lineHeight: 1.5 }}>
-                  <span style={{ color: f.ok ? '#639922' : '#E24B4A', flexShrink: 0 }}>{f.ok ? '✓' : '✗'}</span>
-                  {f.text}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      <p style={{ fontSize: 11, color: '#bbb', lineHeight: 1.5, marginTop: 16, paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
-        ClauseCheck provides educational explanations only and is not legal advice. Always consult a licensed attorney for legal decisions.
-      </p>
-
-      <style>{`@keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }`}</style>
-    </div>
-  )
-}
+              <div key={i} style={
