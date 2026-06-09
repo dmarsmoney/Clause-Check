@@ -136,9 +136,9 @@ ${clause}`
               <div key={p} style={{ fontSize: 13, color: '#555', display: 'flex', gap: 8 }}>✓ {p}</div>
             ))}
           </div>
-          <button style={{ background: '#185FA5', color: '#fff', border: 'none', borderRadius: 8, padding: '0 1.5rem', height: 40, fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
-            👑 Upgrade for $9/month
-          </button>
+          <button onClick={() => window.open('https://buy.stripe.com/test_28E7sK80u3J70et2HK9oc00', '_blank')} style={{ background: '#185FA5', color: '#fff', border: 'none', borderRadius: 8, padding: '0 1.5rem', height: 40, fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
+  👑 Upgrade for $9/month
+</button>
           <p style={{ fontSize: 12, color: '#aaa', marginTop: 10 }}>Cancel anytime.</p>
         </div>
       )}
